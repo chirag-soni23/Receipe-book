@@ -5,7 +5,6 @@ import cors from 'cors'
 import { connectDb } from './database/db.js';
 import cloudinary from 'cloudinary';
 import userRoutes from './routes/userRoutes.js';
-import receipeRoutes from './routes/receipeRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -22,7 +21,6 @@ app.use(cors());
 app.use(cookieParser());
 // routes
 app.use('/api/user',userRoutes);
-app.use('/api/receipe',receipeRoutes);
 
 app.listen(PORT,()=>{
     console.log(`Server Listening on Port no. ${PORT} http://localhost:${PORT}`);
