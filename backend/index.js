@@ -5,17 +5,14 @@ import cors from 'cors'
 import { connectDb } from './database/db.js';
 import cloudinary from 'cloudinary';
 import userRoutes from './routes/userRoutes.js';
-
 dotenv.config();
-const app = express();
-const PORT = 5000 || process.env.PORT
-
 cloudinary.v2.config({
     cloud_name:process.env.CLOUD_NAME,
     api_key:process.env.API_KEY,
     api_secret:process.env.API_SECRET,
 });
-
+const app = express();
+const PORT = 5000 || process.env.PORT
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
