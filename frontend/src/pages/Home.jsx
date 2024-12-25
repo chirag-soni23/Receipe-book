@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useRecipe } from '../context/Receipe';
+import { UserData } from '../context/User';
 
 const Home = () => {
+  const {user} = UserData();
   const { recipes, deleteRecipe, updateRecipe } = useRecipe();
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
@@ -66,13 +68,13 @@ const Home = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleDelete(recipe._id)}
-                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300"
+                    className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300 ${user.role == "admin" ? "block":"hidden"}`}
                   >
                     Delete
                   </button>
                   <button
                     onClick={() => handleEdit(recipe)}
-                    className="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300"
+                    className={`bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 ${user.role == "admin" ? "block":"hidden"}`}
                   >
                     Edit
                   </button>
