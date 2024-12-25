@@ -17,6 +17,7 @@ export const registerUser = TryCatch(async(req,res)=>{
     
     // JSON Web Token
     generateToken(user._id,res);
+    delete user._doc.password
     res.status(200).json({user,message:"User registered successfully!"});
 })
 
@@ -33,6 +34,8 @@ export const loginUser = TryCatch(async(req,res)=>{
     };
     // JSON Web Token
     generateToken(user._id,res);
+    delete user._doc.password
+
     res.json({
         user,
         message:"User Logged in successfully!"
