@@ -21,7 +21,7 @@ const Home = () => {
         {recipes.map((recipe) => (
           <div key={recipe._id} className="border p-4 rounded-md shadow-md">
             <img
-              src={recipe.image.url || '/default-image.jpg'}
+              src={recipe.image && recipe.image.url}
               alt={recipe.title}
               className="w-full h-48 object-cover rounded-md"
             />
@@ -59,7 +59,7 @@ const Home = () => {
           <div className="bg-white p-8 rounded-lg max-w-lg">
             <h2 className="text-2xl font-semibold">{selectedRecipe.title}</h2>
             <img
-              src={selectedRecipe.image.url || '/default-image.jpg'}
+              src={selectedRecipe.image && selectedRecipe.image.url}
               alt={selectedRecipe.title}
               className="w-full h-48 object-cover rounded-md mt-4"
             />
