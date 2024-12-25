@@ -13,12 +13,16 @@ const Home = () => {
   };
 
   const handleDelete = (recipeId) => {
-    deleteRecipe(recipeId);
+    if(confirm("you want to delete receipe ?")){
+      deleteRecipe(recipeId);
+    }
   };
 
   const handleEdit = (recipe) => {
-    setEditingRecipe(recipe);
-    setSelectedRecipe(null);
+    if(confirm("you want to update receipe ?")){
+      setEditingRecipe(recipe);
+      setSelectedRecipe(null);
+    }
   };
 
   const handleUpdate = (e) => {
