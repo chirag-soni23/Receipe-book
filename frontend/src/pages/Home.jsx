@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useRecipe } from '../context/Receipe';
 import { UserData } from '../context/User';
+import { IoSaveOutline } from "react-icons/io5";
+import { IoSaveSharp } from "react-icons/io5";
 
 const Home = () => {
   const { user } = UserData();
@@ -51,7 +53,15 @@ const Home = () => {
               className="w-full h-48 object-cover"
             />
             <div className="p-4">
-              <h2 className="text-xl font-semibold text-gray-800">{recipe.title}</h2>
+              <div className='flex items-center justify-between'>
+                <h2 className="text-xl font-semibold text-gray-800">{recipe.title}</h2>
+                <div className="relative group">
+                  <IoSaveOutline size={24} className="cursor-pointer" />
+                  <span className="absolute top-0 right-0 transform translate-y-6 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded py-1 px-2 transition-opacity duration-300">
+                    Save
+                  </span>
+                </div>
+              </div>
               <p className="text-sm text-gray-600 mt-2">{recipe.description}</p>
               <p className="text-sm text-gray-500 mt-2">
                 <strong>Category:</strong> {recipe.category}
