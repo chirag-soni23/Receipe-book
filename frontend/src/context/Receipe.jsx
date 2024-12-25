@@ -19,6 +19,7 @@ export const RecipeProvider = ({ children }) => {
     }
     fetchRecipes();
   }, []);  
+
   const addRecipe = async (newRecipe) => {
     setIsLoading(true);
 
@@ -31,7 +32,7 @@ export const RecipeProvider = ({ children }) => {
     if (newRecipe.image) formData.append("image", newRecipe.image);
 
     try {
-      const response = await axios.post("/receipe/create", formData);
+      const response = await axios.post("/api/receipe/create", formData); 
       setRecipes([response.data.recipe, ...recipes]);
       toast.success("Recipe added successfully!");
     } catch (error) {
@@ -41,10 +42,18 @@ export const RecipeProvider = ({ children }) => {
     }
   };
 
-  // Function to update an existing recipe
   const updateRecipe = async (recipeId, updatedRecipe) => {
+    setIsLoading(true);
+    const formData = new FormData();
+    formData.append("title", updatedRecipe.title);
+    formData.append("description", updatedRecipe.description);
+    formData.append("ingredients", updatedRecipe.ingredients);
+    formData.append("instructions", updatedRecipe.instructions);
+    formData.append("category", updatedRecipe.category);
+    if (updatedRecipe.image) formData.append("image", updatedRecipe.image);
+
     try {
-      const response = await axios.put(`/api/receipe/${recipeId}`, updatedRecipe);
+      const response = await axios.put(`/api/receipe/${recipeId}`, formData); 
       const updatedRecipes = recipes.map((recipe) =>
         recipe._id === recipeId ? response.data.recipe : recipe
       );
@@ -52,14 +61,15 @@ export const RecipeProvider = ({ children }) => {
       toast.success("Recipe updated successfully!");
     } catch (error) {
       toast.error("Failed to update recipe.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Function to delete a recipe
   const deleteRecipe = async (recipeId) => {
     setIsLoading(true);
     try {
-      const response = await axios.delete(`/api/receipe/${recipeId}`);
+      const response = await axios.delete(`/api/receipe/${recipeId}`); 
       setRecipes(recipes.filter(recipe => recipe._id !== recipeId));
       toast.success("Recipe deleted successfully!");
     } catch (error) {
