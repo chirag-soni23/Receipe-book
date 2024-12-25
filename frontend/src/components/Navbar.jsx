@@ -39,7 +39,6 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Modal for Menu */}
       {isMenuOpen && (
         <div className="fixed  inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-10 rounded-lg w-64 relative">
