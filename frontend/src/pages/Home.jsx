@@ -3,7 +3,7 @@ import { useRecipe } from '../context/Receipe';
 import { UserData } from '../context/User';
 
 const Home = () => {
-  const {user} = UserData();
+  const { user } = UserData();
   const { recipes, deleteRecipe, updateRecipe } = useRecipe();
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
@@ -13,13 +13,13 @@ const Home = () => {
   };
 
   const handleDelete = (recipeId) => {
-    if(confirm("you want to delete receipe ?")){
+    if (confirm("you want to delete receipe ?")) {
       deleteRecipe(recipeId);
     }
   };
 
   const handleEdit = (recipe) => {
-    if(confirm("you want to update receipe ?")){
+    if (confirm("you want to update receipe ?")) {
       setEditingRecipe(recipe);
       setSelectedRecipe(null);
     }
@@ -72,13 +72,13 @@ const Home = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleDelete(recipe._id)}
-                    className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300 ${user.role == "admin" ? "block":"hidden"}`}
+                    className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300 ${user.role == "admin" ? "block" : "hidden"}`}
                   >
                     Delete
                   </button>
                   <button
                     onClick={() => handleEdit(recipe)}
-                    className={`bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 ${user.role == "admin" ? "block":"hidden"}`}
+                    className={`bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 ${user.role == "admin" ? "block" : "hidden"}`}
                   >
                     Edit
                   </button>
@@ -91,7 +91,7 @@ const Home = () => {
 
       {selectedRecipe && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full sm:max-w-md md:max-w-lg">
             <h2 className="text-2xl font-semibold text-gray-800">{selectedRecipe.title}</h2>
             <img
               src={selectedRecipe.image && selectedRecipe.image.url}
@@ -113,12 +113,12 @@ const Home = () => {
       )}
 
       {editingRecipe && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
+        <div className="fixed inset-0 p-4 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full sm:max-w-md md:max-w-lg">
             <h2 className="text-2xl font-semibold text-gray-800">Edit Recipe</h2>
             <form onSubmit={handleUpdate}>
               <div className="mb-4">
-                <label htmlFor="title" className="block text-sm font-semibold text-gray-700">Title</label>
+                <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mt-4">Title</label>
                 <input
                   type="text"
                   id="title"
@@ -126,40 +126,46 @@ const Home = () => {
                   className="w-full px-4 py-2 border rounded-md mt-2"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
-                <textarea
-                  id="description"
-                  defaultValue={editingRecipe.description}
-                  className="w-full px-4 py-2 border rounded-md mt-2"
-                />
+              <div className="flex gap-2">
+                <div className="mb-4">
+                  <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
+                  <textarea
+                    id="description"
+                    defaultValue={editingRecipe.description}
+                    className="w-full px-4 py-2 border rounded-md mt-2"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="ingredients" className="block text-sm font-semibold text-gray-700">Ingredients</label>
+                  <input
+                    type="text"
+                    id="ingredients"
+                    defaultValue={editingRecipe.ingredients}
+                    className="w-full px-4 py-2 border rounded-md mt-2"
+                  />
+                </div>
               </div>
-              <div className="mb-4">
-                <label htmlFor="ingredients" className="block text-sm font-semibold text-gray-700">Ingredients</label>
-                <input
-                  type="text"
-                  id="ingredients"
-                  defaultValue={editingRecipe.ingredients}
-                  className="w-full px-4 py-2 border rounded-md mt-2"
-                />
+
+              <div className="flex gap-2">
+                <div className="mb-4">
+                  <label htmlFor="instructions" className="block text-sm font-semibold text-gray-700">Instructions</label>
+                  <textarea
+                    id="instructions"
+                    defaultValue={editingRecipe.instructions}
+                    className="w-full px-4 py-2 border rounded-md mt-2"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
+                  <input
+                    type="text"
+                    id="category"
+                    defaultValue={editingRecipe.category}
+                    className="w-full px-4 py-2 border rounded-md mt-2"
+                  />
+                </div>
               </div>
-              <div className="mb-4">
-                <label htmlFor="instructions" className="block text-sm font-semibold text-gray-700">Instructions</label>
-                <textarea
-                  id="instructions"
-                  defaultValue={editingRecipe.instructions}
-                  className="w-full px-4 py-2 border rounded-md mt-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
-                <input
-                  type="text"
-                  id="category"
-                  defaultValue={editingRecipe.category}
-                  className="w-full px-4 py-2 border rounded-md mt-2"
-                />
-              </div>
+
               <div className="mb-4">
                 <label htmlFor="image" className="block text-sm font-semibold text-gray-700">Image</label>
                 <input
