@@ -9,6 +9,7 @@ const Navbar = () => {
     <div className="bg-blue-500 p-4 flex justify-between items-center">
       <h1 className="text-white text-xl">RECEIPE</h1>
       <div className="flex space-x-4">
+      <Link to={'/'} className={`text-white p-2 rounded-md bg-yellow-600`}>Home</Link>
         <Link to={'/admin'} className={`text-white p-2 rounded-md bg-green-600 ${user.role == 'admin'?"block":"hidden"}`}>Admin</Link>
         <button onClick={logout}  className="text-white bg-red-600 p-2 rounded-md">Logout</button>
       </div>
