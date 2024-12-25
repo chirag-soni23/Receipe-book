@@ -28,6 +28,7 @@ export const SavedProvider = ({ children }) => {
       const response = await axios.post(`/api/save/${recipeId}`);
       if (response.status === 200) {
         setSavedRecipes(prevState => [...prevState, response.data]);
+        window.location.reload();
       }
     } catch (err) {
       setError('Error saving recipe');

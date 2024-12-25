@@ -18,6 +18,7 @@ export const UserProvider = ({ children }) => {
             setIsAuth(true);
             setBtnLoading(false);
             navigate("/");
+            window.location.reload();
         } catch (error) {
             toast.error(error.response.data.message)
             setBtnLoading(false);
@@ -33,7 +34,7 @@ export const UserProvider = ({ children }) => {
             setIsAuth(true);
             setBtnLoading(false);
             navigate("/");
-
+            window.location.reload();
         } catch (error) {
             toast.error(error.response.data.message)
             setBtnLoading(false);
