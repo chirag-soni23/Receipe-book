@@ -11,12 +11,12 @@ const Home = () => {
   };
 
   const handleDelete = (recipeId) => {
-    deleteRecipe(recipeId); 
+    deleteRecipe(recipeId);
   };
 
   const handleEdit = (recipe) => {
     setEditingRecipe(recipe);
-    setSelectedRecipe(null); 
+    setSelectedRecipe(null);
   };
 
   const handleUpdate = (e) => {
@@ -28,48 +28,55 @@ const Home = () => {
       ingredients: e.target.ingredients.value,
       instructions: e.target.instructions.value,
       category: e.target.category.value,
-      image: e.target.image.files[0] || editingRecipe.image.url
+      image: e.target.image.files[0] || editingRecipe.image.url,
     };
     updateRecipe(editingRecipe._id, updatedRecipe);
-    setEditingRecipe(null); 
+    setEditingRecipe(null);
   };
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {recipes.map((recipe) => (
-          <div key={recipe._id} className="border p-4 rounded-md shadow-md">
+          <div key={recipe._id} className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out">
             <img
               src={recipe.image && recipe.image.url}
               alt={recipe.title}
-              className="w-full h-48 object-cover rounded-md"
+              className="w-full h-48 object-cover"
             />
-            <h2 className="text-xl font-semibold mt-2">{recipe.title}</h2>
-            <p className="text-sm text-gray-500 mt-2">{recipe.description}</p>
-            <p className="text-sm mt-2"><strong>Category:</strong> {recipe.category}</p>
-            <p className="text-sm mt-2"><strong>Ingredients:</strong> {recipe.ingredients}</p>
-            <p className="text-sm mt-2"><strong>Instructions:</strong> {recipe.instructions}</p>
-
-            <div className="flex justify-between items-center mt-4">
-              <button
-                onClick={() => handleView(recipe)}
-                className="bg-blue-500 text-white py-2 px-4 rounded-md"
-              >
-                View
-              </button>
-              <div>
+            <div className="p-4">
+              <h2 className="text-xl font-semibold text-gray-800">{recipe.title}</h2>
+              <p className="text-sm text-gray-600 mt-2">{recipe.description}</p>
+              <p className="text-sm text-gray-500 mt-2">
+                <strong>Category:</strong> {recipe.category}
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                <strong>Ingredients:</strong> {recipe.ingredients}
+              </p>
+              <p className="text-sm text-gray-500 mt-2">
+                <strong>Instructions:</strong> {recipe.instructions}
+              </p>
+              <div className="flex justify-between items-center mt-4">
                 <button
-                  onClick={() => handleDelete(recipe._id)}
-                  className="bg-red-500 text-white py-2 px-4 rounded-md mr-2"
+                  onClick={() => handleView(recipe)}
+                  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 transition-colors duration-300"
                 >
-                  Delete
+                  View
                 </button>
-                <button
-                  onClick={() => handleEdit(recipe)}
-                  className="bg-yellow-500 text-white py-2 px-4 rounded-md"
-                >
-                  Edit
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleDelete(recipe._id)}
+                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => handleEdit(recipe)}
+                    className="bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300"
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -77,21 +84,21 @@ const Home = () => {
       </div>
 
       {selectedRecipe && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-lg">
-            <h2 className="text-2xl font-semibold">{selectedRecipe.title}</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-800">{selectedRecipe.title}</h2>
             <img
               src={selectedRecipe.image && selectedRecipe.image.url}
               alt={selectedRecipe.title}
               className="w-full h-48 object-cover rounded-md mt-4"
             />
-            <p className="mt-4">{selectedRecipe.description}</p>
-            <p className="mt-2"><strong>Ingredients:</strong> {selectedRecipe.ingredients}</p>
-            <p className="mt-2"><strong>Instructions:</strong> {selectedRecipe.instructions}</p>
-            <p className="mt-2"><strong>Category:</strong> {selectedRecipe.category}</p>
+            <p className="mt-4 text-gray-700">{selectedRecipe.description}</p>
+            <p className="mt-2 text-gray-600"><strong>Ingredients:</strong> {selectedRecipe.ingredients}</p>
+            <p className="mt-2 text-gray-600"><strong>Instructions:</strong> {selectedRecipe.instructions}</p>
+            <p className="mt-2 text-gray-600"><strong>Category:</strong> {selectedRecipe.category}</p>
             <button
               onClick={() => setSelectedRecipe(null)}
-              className="bg-gray-500 text-white py-2 px-4 rounded-md mt-4"
+              className="bg-gray-600 text-white py-2 px-4 rounded-md mt-4 hover:bg-gray-500"
             >
               Close
             </button>
@@ -100,12 +107,12 @@ const Home = () => {
       )}
 
       {editingRecipe && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg max-w-lg">
-            <h2 className="text-2xl font-semibold">Edit Recipe</h2>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-lg w-full">
+            <h2 className="text-2xl font-semibold text-gray-800">Edit Recipe</h2>
             <form onSubmit={handleUpdate}>
               <div className="mb-4">
-                <label htmlFor="title" className="block text-sm font-semibold">Title</label>
+                <label htmlFor="title" className="block text-sm font-semibold text-gray-700">Title</label>
                 <input
                   type="text"
                   id="title"
@@ -114,7 +121,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="description" className="block text-sm font-semibold">Description</label>
+                <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
                 <textarea
                   id="description"
                   defaultValue={editingRecipe.description}
@@ -122,7 +129,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="ingredients" className="block text-sm font-semibold">Ingredients</label>
+                <label htmlFor="ingredients" className="block text-sm font-semibold text-gray-700">Ingredients</label>
                 <input
                   type="text"
                   id="ingredients"
@@ -131,7 +138,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="instructions" className="block text-sm font-semibold">Instructions</label>
+                <label htmlFor="instructions" className="block text-sm font-semibold text-gray-700">Instructions</label>
                 <textarea
                   id="instructions"
                   defaultValue={editingRecipe.instructions}
@@ -139,7 +146,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="category" className="block text-sm font-semibold">Category</label>
+                <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
                 <input
                   type="text"
                   id="category"
@@ -148,7 +155,7 @@ const Home = () => {
                 />
               </div>
               <div className="mb-4">
-                <label htmlFor="image" className="block text-sm font-semibold">Image</label>
+                <label htmlFor="image" className="block text-sm font-semibold text-gray-700">Image</label>
                 <input
                   type="file"
                   id="image"
@@ -159,13 +166,13 @@ const Home = () => {
                 <button
                   type="button"
                   onClick={() => setEditingRecipe(null)}
-                  className="bg-gray-500 text-white py-2 px-4 rounded-md"
+                  className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                  className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500"
                 >
                   Update
                 </button>
