@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useRecipe } from '../context/Receipe';
 
-
 const Home = () => {
-  const { recipes, deleteRecipe, isLoading } = useRecipe();
+  const { recipes, deleteRecipe, updateRecipe } = useRecipe();
   const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [editingRecipe, setEditingRecipe] = useState(null);
 
   const handleView = (recipe) => {
     setSelectedRecipe(recipe);
@@ -12,6 +12,26 @@ const Home = () => {
 
   const handleDelete = (recipeId) => {
     deleteRecipe(recipeId); 
+  };
+
+  const handleEdit = (recipe) => {
+    setEditingRecipe(recipe);
+    setSelectedRecipe(null); 
+  };
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    const updatedRecipe = {
+      ...editingRecipe,
+      title: e.target.title.value,
+      description: e.target.description.value,
+      ingredients: e.target.ingredients.value,
+      instructions: e.target.instructions.value,
+      category: e.target.category.value,
+      image: e.target.image.files[0] || editingRecipe.image.url
+    };
+    updateRecipe(editingRecipe._id, updatedRecipe);
+    setEditingRecipe(null); 
   };
 
   return (
@@ -44,7 +64,10 @@ const Home = () => {
                 >
                   Delete
                 </button>
-                <button className="bg-yellow-500 text-white py-2 px-4 rounded-md">
+                <button
+                  onClick={() => handleEdit(recipe)}
+                  className="bg-yellow-500 text-white py-2 px-4 rounded-md"
+                >
                   Edit
                 </button>
               </div>
@@ -72,6 +95,82 @@ const Home = () => {
             >
               Close
             </button>
+          </div>
+        </div>
+      )}
+
+      {editingRecipe && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-8 rounded-lg max-w-lg">
+            <h2 className="text-2xl font-semibold">Edit Recipe</h2>
+            <form onSubmit={handleUpdate}>
+              <div className="mb-4">
+                <label htmlFor="title" className="block text-sm font-semibold">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  defaultValue={editingRecipe.title}
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="description" className="block text-sm font-semibold">Description</label>
+                <textarea
+                  id="description"
+                  defaultValue={editingRecipe.description}
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="ingredients" className="block text-sm font-semibold">Ingredients</label>
+                <input
+                  type="text"
+                  id="ingredients"
+                  defaultValue={editingRecipe.ingredients}
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="instructions" className="block text-sm font-semibold">Instructions</label>
+                <textarea
+                  id="instructions"
+                  defaultValue={editingRecipe.instructions}
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="category" className="block text-sm font-semibold">Category</label>
+                <input
+                  type="text"
+                  id="category"
+                  defaultValue={editingRecipe.category}
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="image" className="block text-sm font-semibold">Image</label>
+                <input
+                  type="file"
+                  id="image"
+                  className="w-full px-4 py-2 border rounded-md mt-2"
+                />
+              </div>
+              <div className="flex justify-between mt-4">
+                <button
+                  type="button"
+                  onClick={() => setEditingRecipe(null)}
+                  className="bg-gray-500 text-white py-2 px-4 rounded-md"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
