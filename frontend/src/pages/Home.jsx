@@ -3,25 +3,32 @@ import { useRecipe } from '../context/Receipe';
 import { UserData } from '../context/User';
 import { IoSaveOutline } from "react-icons/io5";
 import { IoSaveSharp } from "react-icons/io5";
+import { useSaved } from '../context/SavedReceipe';
+import toast from 'react-hot-toast';
 
 const Home = () => {
   const { user } = UserData();
   const { recipes, deleteRecipe, updateRecipe } = useRecipe();
+  const { savedRecipes, saveRecipe, removeSavedRecipe } = useSaved(); 
   const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [editingRecipe, setEditingRecipe] = useState(null);
+
+  const isSaved = (recipeId) => {
+    return savedRecipes.some((savedRecipe) => savedRecipe._id === recipeId);
+  };
 
   const handleView = (recipe) => {
     setSelectedRecipe(recipe);
   };
 
   const handleDelete = (recipeId) => {
-    if (confirm("you want to delete receipe ?")) {
+    if (confirm("Do you want to delete this recipe?")) {
       deleteRecipe(recipeId);
     }
   };
 
   const handleEdit = (recipe) => {
-    if (confirm("you want to update receipe ?")) {
+    if (confirm("Do you want to update this recipe?")) {
       setEditingRecipe(recipe);
       setSelectedRecipe(null);
     }
@@ -42,6 +49,16 @@ const Home = () => {
     setEditingRecipe(null);
   };
 
+  const handleSave = (recipeId) => {
+    toast.success("Recipe Saved Successfully!");
+    saveRecipe(recipeId);
+  };
+
+  const handleUnsave = (recipeId) => {
+    toast.success("Recipe Unsaved!");
+    removeSavedRecipe(recipeId);
+  };
+
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -56,9 +73,21 @@ const Home = () => {
               <div className='flex items-center justify-between'>
                 <h2 className="text-xl font-semibold text-gray-800">{recipe.title}</h2>
                 <div className="relative group">
-                  <IoSaveOutline size={24} className="cursor-pointer" />
+                  {isSaved(recipe._id) ? (
+                    <IoSaveSharp
+                      size={24}
+                      className="cursor-pointer"
+                      onClick={() => handleUnsave(recipe._id)}
+                    />
+                  ) : (
+                    <IoSaveOutline
+                      size={24}
+                      className="cursor-pointer"
+                      onClick={() => handleSave(recipe._id)}
+                    />
+                  )}
                   <span className="absolute top-0 right-0 transform translate-y-6 opacity-0 group-hover:opacity-100 text-sm bg-gray-800 text-white rounded py-1 px-2 transition-opacity duration-300">
-                    Save
+                    {isSaved(recipe._id) ? "Unsave" : "Save"}
                   </span>
                 </div>
               </div>
@@ -82,13 +111,13 @@ const Home = () => {
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleDelete(recipe._id)}
-                    className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300 ${user.role == "admin" ? "block" : "hidden"}`}
+                    className={`bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-500 transition-colors duration-300 ${user.role === "admin" ? "block" : "hidden"}`}
                   >
                     Delete
                   </button>
                   <button
                     onClick={() => handleEdit(recipe)}
-                    className={`bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 ${user.role == "admin" ? "block" : "hidden"}`}
+                    className={`bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors duration-300 ${user.role === "admin" ? "block" : "hidden"}`}
                   >
                     Edit
                   </button>
@@ -133,54 +162,6 @@ const Home = () => {
                   type="text"
                   id="title"
                   defaultValue={editingRecipe.title}
-                  className="w-full px-4 py-2 border rounded-md mt-2"
-                />
-              </div>
-              <div className="flex gap-2">
-                <div className="mb-4">
-                  <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
-                  <textarea
-                    id="description"
-                    defaultValue={editingRecipe.description}
-                    className="w-full px-4 py-2 border rounded-md mt-2"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="ingredients" className="block text-sm font-semibold text-gray-700">Ingredients</label>
-                  <input
-                    type="text"
-                    id="ingredients"
-                    defaultValue={editingRecipe.ingredients}
-                    className="w-full px-4 py-2 border rounded-md mt-2"
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-2">
-                <div className="mb-4">
-                  <label htmlFor="instructions" className="block text-sm font-semibold text-gray-700">Instructions</label>
-                  <textarea
-                    id="instructions"
-                    defaultValue={editingRecipe.instructions}
-                    className="w-full px-4 py-2 border rounded-md mt-2"
-                  />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
-                  <input
-                    type="text"
-                    id="category"
-                    defaultValue={editingRecipe.category}
-                    className="w-full px-4 py-2 border rounded-md mt-2"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="image" className="block text-sm font-semibold text-gray-700">Image</label>
-                <input
-                  type="file"
-                  id="image"
                   className="w-full px-4 py-2 border rounded-md mt-2"
                 />
               </div>
