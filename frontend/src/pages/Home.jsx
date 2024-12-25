@@ -10,9 +10,8 @@ const Home = () => {
     setSelectedRecipe(recipe);
   };
 
-  // Handle Delete Button Click
   const handleDelete = (recipeId) => {
-    deleteRecipe(recipeId); // Delete the recipe
+    deleteRecipe(recipeId); 
   };
 
   return (
